@@ -6,22 +6,22 @@
 
 
 ``` csharp
- using SampleData.Generator;
- using System;
+using SampleData.Generator;
+using System;
 
- namespace SampleData
- {
+namespace SampleData
+{
     class Program
     {
         static void Main(string[] args)
         {
-            ITextGenerator tg = new TextGenerator(3, true, true);
+            ITextGenerator tg = new TextGenerator(3, true);
             Console.WriteLine(tg.GetHeadline());
             
             Console.ReadLine();
         }
     }
- }
+}
  
  // ## will generate something like this, depends on your parameters: ##
 

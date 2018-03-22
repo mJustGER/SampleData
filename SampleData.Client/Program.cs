@@ -7,7 +7,7 @@ namespace SampleData
     {
         static void Main(string[] args)
         {
-            ITextGenerator tg = new TextGenerator(-3, true, true);
+            ITextGenerator tg = new TextGenerator(-3, true);
             Console.WriteLine(tg.GetHeadline());
             
             Console.ReadLine();

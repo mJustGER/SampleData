@@ -36,7 +36,7 @@ namespace SampleData.Generator
         public bool PunctuationMark { get; set; } = false;
 
 
-        public TextGenerator(int delta, bool addUpperCases, bool punctuationMark)
+        public TextGenerator(int delta, bool addUpperCases, bool punctuationMark = false)
         {
             // if given deltaValue is negative than invert this value.
             base.Delta = delta >= 0 ? delta : delta * -1;
