@@ -1,4 +1,5 @@
 ﻿using SampleData.Library;
+using SampleData.Library.attributes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,8 +10,7 @@ namespace SampleData.Generator
 {
     public sealed class TextGenerator : Generator, ITextGenerator
     {
-
-        /// <summary>
+         /// <summary>
         /// Defines the average length of the headline.
         /// </summary>
         public int HeadLineLength { get; set; } = 7;
@@ -21,37 +21,50 @@ namespace SampleData.Generator
         public int RecordLength { get; set; } = 14;
 
         /// <summary>
+        /// List for internal use to store words.
+        /// </summary>
+        private List<string> ls { get; set; }
+
+        /// <summary>
+        /// Enable or disable upper words in sentences.
+        /// </summary>
+        public bool AddUpperCases { get; set; } = true;
+
+        /// <summary>
         /// Enable or disable the chars {, !, ?, ', '', "" } in sentences.
         /// </summary>
         public bool PunctuationMark { get; set; } = false;
-          
 
-        public TextGenerator()
+
+        public TextGenerator(int delta, bool addUpperCases, bool punctuationMark)
         {
+            // if given deltaValue is negative than invert this value.
+            base.Delta = delta >= 0 ? delta : delta * -1;
+             
+            this.AddUpperCases = addUpperCases;
+            this.PunctuationMark = punctuationMark;
+             
             base.LoadRessources("SampleData.Library.resources.LorenIpsum.resources");
+            ls = new List<string>();
         }
-         
+
         public string GetHeadline()
         {
-            List<string> ls = new List<string>();
-            ls = base.GeneratorWords.OrderBy(x => rnd.Next()).Take(HeadLineLength).ToList();
-
+            ls = base.GeneratorWords.OrderBy(x => rnd.Next()).Take(HeadLineLength + base.Delta).ToList();
             ls = AddUpperCase(ls);
-
 
             return ls.Aggregate((a, b) => a + " " + b);
         }
 
         public string getSentence()
         {
-            List<string> ls = new List<string>();
             ls = base.GeneratorWords.OrderBy(x => rnd.Next()).Take(RecordLength).ToList();
-            ls = AddUpperCase(ls);
 
-            if (PunctuationMark)
-            {
-                ls = addPunctuationMark(ls);
-            }
+            // covert rand words to upper case
+            if (AddUpperCases) ls = AddUpperCase(ls);
+
+            // add rand punctuationmark to sentence
+            if (PunctuationMark) ls = addPunctuationMark(ls);
 
             return getString(ls);
         }
@@ -65,7 +78,6 @@ namespace SampleData.Generator
             result = Regex.Replace(result, @"""\s(\w+)\s""", @"""$1""");
 
             return result;
-
         }
 
 
@@ -113,12 +125,8 @@ namespace SampleData.Generator
                     ls.Add(".");
                     break;
             }
-
-
             return ls;
         }
-
-
 
         private List<string> AddUpperCase(List<string> s)
         {
@@ -139,6 +147,5 @@ namespace SampleData.Generator
 
             return s;
         }
-
     }
 }

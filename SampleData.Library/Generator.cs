@@ -12,9 +12,18 @@ namespace SampleData.Generator
         protected List<string> GeneratorWords = new List<string>();
 
         protected Random rnd { get; } = new Random();
+         
+        /// <summary>
+        /// Defines the deviation of length.
+        /// </summary>
+        private int _delta;
 
-        protected int delta { get; set; } = 3;
-
+        public int Delta
+        {
+            get { return rnd.Next((_delta * -1), _delta); }
+            set { _delta = value; }
+        }
+         
         protected void LoadRessources(string resourceName)
         {
             Assembly assem = Assembly.GetAssembly(typeof(Generator));

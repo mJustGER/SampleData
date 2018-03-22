@@ -8,22 +8,11 @@ namespace SampleData
     {
         static void Main(string[] args)
         {
-            ITextGenerator tg = new TextGenerator();
-            tg.GetHeadline();
+            ITextGenerator tg = new TextGenerator(-3, true, true);
 
+            for (int i = 0; i < 15; i++) Console.WriteLine(tg.GetHeadline());
+            for (int i = 0; i < 15; i++) Console.WriteLine(tg.getSentence());
 
-            //TextGenerator tg = new TextGenerator();
-            //tg.PunctuationMark = true;
-
-
-            //for (int i = 0; i < 50; i++)
-            //{
-            //    Console.WriteLine(tg.getSentence());
-            //}
-
-
-
-            Console.WriteLine(tg.GetHeadline());
 
 
 

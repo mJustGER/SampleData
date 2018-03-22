@@ -6,8 +6,9 @@ namespace SampleData.Generator
 {
     public interface ITextGenerator
     {
-
+          
         string GetHeadline();
          
+        string getSentence();
     }
 }
