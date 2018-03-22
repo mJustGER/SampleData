@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SampleData.Library;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,7 @@ using System.Text.RegularExpressions;
 
 namespace SampleData.Generator
 {
-    public class TextGenerator : Generator
+    public sealed class TextGenerator : Generator, ITextGenerator
     {
 
         /// <summary>
@@ -23,16 +24,17 @@ namespace SampleData.Generator
         /// Enable or disable the chars {, !, ?, ', '', "" } in sentences.
         /// </summary>
         public bool PunctuationMark { get; set; } = false;
+          
 
-        /// <summary>
-        /// Defines a set of words based on "Lorem Ipsum" for generating texts.  
-        /// </summary>
-        string[] Words { get; } = { "a", "ac", "accumsan", "adipiscing", "aenean", "aliquam", "aliquet", "amet", "ante", "arcu", "at", "auctor", "augue", "bibendum", "blandit", "commodo", "condimentum", "congue", "consectetur", "consequat", "convallis", "cras", "curabitur", "cursus", "dapibus", "diam", "dictum", "dictumst", "dignissim", "dis", "dolor", "donec", "dui", "duis", "efficitur", "egestas", "eget", "eleifend", "elementum", "elit", "enim", "erat", "eros", "est", "et", "etiam", "eu", "euismod", "ex", "facilisis", "fames", "faucibus", "felis", "fermentum", "feugiat", "finibus", "fringilla", "fusce", "habitant", "habitasse", "hac", "hendrerit", "iaculis", "id", "imperdiet", "in", "integer", "interdum", "ipsum", "lacinia", "lacus", "laoreet", "lectus", "leo", "libero", "ligula", "lobortis", "lorem", "luctus", "maecenas", "magna", "magnis", "malesuada", "massa", "mattis", "mauris", "maximus", "metus", "mi", "molestie", "mollis", "montes", "morbi", "mus", "nam", "nascetur", "natoque", "nec", "neque", "netus", "nibh", "nisi", "nisl", "non", "nulla", "nullam", "nunc", "odio", "orci", "ornare", "parturient", "pellentesque", "penatibus", "pharetra", "phasellus", "placerat", "platea", "porta", "porttitor", "posuere", "potenti", "praesent", "pretium", "primis", "proin", "pulvinar", "purus", "quam", "quis", "quisque", "rhoncus", "ridiculus", "risus", "rutrum", "sagittis", "sapien", "scelerisque", "sed", "sem", "semper", "senectus", "sit", "sodales", "sollicitudin", "suscipit", "suspendisse", "tellus", "tempor", "tempus", "tincidunt", "tortor", "tristique", "turpis", "ullamcorper", "ultrices", "ultricies", "urna", "ut", "varius", "vehicula", "vel", "velit", "venenatis", "vestibulum", "vitae", "vivamus", "viverra", "volutpat", "vulputate" };
-
-        public string getHeadline()
+        public TextGenerator()
+        {
+            base.LoadRessources("SampleData.Library.resources.LorenIpsum.resources");
+        }
+         
+        public string GetHeadline()
         {
             List<string> ls = new List<string>();
-            ls = Words.OrderBy(x => rnd.Next()).Take(HeadLineLength).ToList();
+            ls = base.GeneratorWords.OrderBy(x => rnd.Next()).Take(HeadLineLength).ToList();
 
             ls = AddUpperCase(ls);
 
@@ -43,7 +45,7 @@ namespace SampleData.Generator
         public string getSentence()
         {
             List<string> ls = new List<string>();
-            ls = Words.OrderBy(x => rnd.Next()).Take(RecordLength).ToList();
+            ls = base.GeneratorWords.OrderBy(x => rnd.Next()).Take(RecordLength).ToList();
             ls = AddUpperCase(ls);
 
             if (PunctuationMark)
